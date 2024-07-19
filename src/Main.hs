@@ -9,8 +9,11 @@ import GI.GLib
 import qualified GI.Gdk as Gdk
 import qualified GI.Gtk as Gtk
 
-initialSize :: Int
-initialSize = 256
+canvasWidth :: Int
+canvasWidth = 256
+
+canvasHeight :: Int
+canvasHeight = 256
 
 drawClockBackground :: Gtk.IsWidget widget => widget -> Bool -> Render ()
 drawClockBackground canvas quality = do
@@ -40,8 +43,8 @@ main = do
 
   Gtk.widgetSetAppPaintable window True
 
-  Gtk.windowSetDefaultSize window (fromIntegral initialSize)
-                                  (fromIntegral initialSize)
+  Gtk.windowSetDefaultSize window (fromIntegral canvasWidth)
+                                  (fromIntegral canvasHeight)
 
   geometry <- Gdk.newZeroGeometry
   Gdk.setGeometryMaxWidth  geometry 512
@@ -54,7 +57,7 @@ main = do
   Gtk.windowSetGeometryHints window (Just window) (Just geometry) []
 
   Gtk.onWidgetKeyPressEvent window $ \keyPressInfo -> do
-    keyVal <- Gdk.getEventKeyKeyval keyPressInfo
+    keyVal  <- Gdk.getEventKeyKeyval keyPressInfo
     keyName <- fromMaybe Text.empty <$> Gdk.keyvalName keyVal
     case Text.unpack keyName of
       "Escape" -> do Gtk.mainQuit
@@ -63,27 +66,28 @@ main = do
 
   Gtk.onWidgetButtonPressEvent window $ \button -> do
     btnNo <- Gdk.getEventButtonButton button
-    x     <- Gdk.getEventButtonX button
-    y     <- Gdk.getEventButtonY button
-    time  <- Gdk.getEventButtonTime button
+    x     <- Gdk.getEventButtonX      button
+    y     <- Gdk.getEventButtonY      button
+    time  <- Gdk.getEventButtonTime   button
     case btnNo of
       1  -> do Gtk.windowBeginMoveDrag window 1 (round x) (round y) time  -- left button
                return True
       2  -> do Gtk.windowBeginResizeDrag window Gdk.WindowEdgeSouthEast 2 -- middle button
-                                         (round x) (round y) time
+                                                (round x) (round y) time
                return True
       _  -> return False
 
   canvas <- Gtk.drawingAreaNew
-  Gtk.containerAdd window canvas
 
+  Gtk.containerAdd       window canvas
   Gtk.setWindowDecorated window False
   Gtk.setWindowResizable window True
-  Gtk.setWindowTitle window (pack "Cairo Clock")
+  Gtk.setWindowTitle     window (pack "Example Canvas")
 
   Gtk.onWidgetDraw canvas $ renderWithContext (drawCanvasHandler canvas)
 
   Gtk.widgetShowAll window
+
   timeoutAdd GI.GLib.PRIORITY_DEFAULT 1000 (Gtk.widgetQueueDraw window >> return True)
 
   Gtk.main
