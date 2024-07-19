@@ -36,6 +36,11 @@ drawClockBackground canvas quality = do
   save
   scale (fromIntegral width) (fromIntegral height)
 
+  setSourceRGB 0.78 0.82 0.805
+  translate 0.5 0.5
+  arc 0 0 (60/150) 0 (pi*2)
+  fill
+
   restore
 
 
@@ -97,4 +102,5 @@ main = do
 
   Gtk.widgetShowAll window
   timeoutAdd GI.GLib.PRIORITY_DEFAULT 1000 (Gtk.widgetQueueDraw window >> return True)
+
   Gtk.main
