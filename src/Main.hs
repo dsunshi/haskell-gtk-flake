@@ -1,32 +1,16 @@
 {-# LANGUAGE OverloadedStrings, OverloadedLabels, OverloadedRecordDot, ImplicitParams #-}
-{- cabal:
-build-depends: base >= 4.16, haskell-gi-base, gi-gtk == 4.0.*
--}
-import Control.Monad (void)
 
-import qualified GI.Gdk as Gdk
-import qualified GI.Gtk as Gtk
+import Control.Monad (void)
+import Data.Maybe
+import Data.Text as Text
 import GI.Cairo.Render
 import GI.Cairo.Render.Connector
 import GI.GLib
-import Data.Maybe
-import Data.Text as Text
--- import Data.GI.Base
-
--- activate :: Gtk.Application -> IO ()
--- activate app = do
---   button <- new Gtk.Button [#label := "Click me",
---                             On #clicked (?self `set` [#sensitive := False,
---                                                       #label := "Thanks for clicking me"])]
-
---   window <- new Gtk.ApplicationWindow [#application := app,
---                                        #title := "Hi there",
---                                        #child := button]
---   window.show
+import qualified GI.Gdk as Gdk
+import qualified GI.Gtk as Gtk
 
 initialSize :: Int
 initialSize = 256
-
 
 drawClockBackground :: Gtk.IsWidget widget => widget -> Bool -> Render ()
 drawClockBackground canvas quality = do
@@ -42,7 +26,6 @@ drawClockBackground canvas quality = do
   fill
 
   restore
-
 
 drawCanvasHandler :: Gtk.IsWidget widget => widget -> Render Bool
 drawCanvasHandler widget = do
