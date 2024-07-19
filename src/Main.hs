@@ -1,9 +1,9 @@
 {-# LANGUAGE OverloadedStrings, OverloadedLabels, OverloadedRecordDot, ImplicitParams #-}
+{-# OPTIONS_GHC -Wno-simplifiable-class-constraints #-}
 
-import Control.Monad (void)
 import Data.Maybe
 import Data.Text as Text
-import GI.Cairo.Render
+import GI.Cairo.Render hiding (x, y, width, height)
 import GI.Cairo.Render.Connector
 import GI.GLib
 import qualified GI.Gdk as Gdk
@@ -21,7 +21,7 @@ drawCanvasHandler widget = do
 
 main :: IO ()
 main = do
-  Gtk.init Nothing
+  _ <- Gtk.init Nothing
   window <- Gtk.windowNew Gtk.WindowTypeToplevel
   Gtk.windowSetPosition window Gtk.WindowPositionCenterAlways
 
@@ -40,7 +40,7 @@ main = do
 
   Gtk.windowSetGeometryHints window (Just window) (Just geometry) []
 
-  Gtk.onWidgetKeyPressEvent window $ \keyPressInfo -> do
+  _ <- Gtk.onWidgetKeyPressEvent window $ \keyPressInfo -> do
     keyVal  <- Gdk.getEventKeyKeyval keyPressInfo
     keyName <- fromMaybe Text.empty <$> Gdk.keyvalName keyVal
     case Text.unpack keyName of
@@ -48,7 +48,7 @@ main = do
                      return True
       _        -> return False
 
-  Gtk.onWidgetButtonPressEvent window $ \button -> do
+  _ <- Gtk.onWidgetButtonPressEvent window $ \button -> do
     btnNo <- Gdk.getEventButtonButton button
     x     <- Gdk.getEventButtonX      button
     y     <- Gdk.getEventButtonY      button
@@ -68,10 +68,10 @@ main = do
   Gtk.setWindowResizable window True
   Gtk.setWindowTitle     window (pack "Example Canvas")
 
-  Gtk.onWidgetDraw canvas $ renderWithContext (drawCanvasHandler canvas)
+  _ <- Gtk.onWidgetDraw canvas $ renderWithContext (drawCanvasHandler canvas)
 
   Gtk.widgetShowAll window
 
-  timeoutAdd GI.GLib.PRIORITY_DEFAULT 1000 (Gtk.widgetQueueDraw window >> return True)
+  _ <- timeoutAdd GI.GLib.PRIORITY_DEFAULT 1000 (Gtk.widgetQueueDraw window >> return True)
 
   Gtk.main
