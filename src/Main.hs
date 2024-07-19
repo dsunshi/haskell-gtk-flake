@@ -8,31 +8,11 @@ import GI.Cairo.Render.Connector
 import GI.GLib
 import qualified GI.Gdk as Gdk
 import qualified GI.Gtk as Gtk
-
-canvasWidth :: Int
-canvasWidth = 256
-
-canvasHeight :: Int
-canvasHeight = 256
-
-drawClockBackground :: Gtk.IsWidget widget => widget -> Render ()
-drawClockBackground canvas = do
-
-  width  <- liftIO $ Gtk.widgetGetAllocatedWidth  canvas
-  height <- liftIO $ Gtk.widgetGetAllocatedHeight canvas
-  save
-  scale (fromIntegral width) (fromIntegral height)
-
-  setSourceRGB 0.78 0.82 0.805
-  translate 0.5 0.5
-  arc 0 0 (60/150) 0 (pi*2)
-  fill
-
-  restore
+import Draw
 
 drawCanvasHandler :: Gtk.IsWidget widget => widget -> Render Bool
 drawCanvasHandler widget = do
-  drawClockBackground widget
+  drawCanvas widget
   return True
 
 main :: IO ()
