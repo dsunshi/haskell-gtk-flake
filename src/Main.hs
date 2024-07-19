@@ -54,10 +54,11 @@ main = do
     y     <- Gdk.getEventButtonY      button
     time  <- Gdk.getEventButtonTime   button
     case btnNo of
-      1  -> do Gtk.windowBeginMoveDrag window 1 (round x) (round y) time  -- left button
+      -- left button
+      1  -> do Gtk.windowBeginMoveDrag window 1 (round x) (round y) time
                return True
-      2  -> do Gtk.windowBeginResizeDrag window Gdk.WindowEdgeSouthEast 2 -- middle button
-                                         (round x) (round y) time
+      -- middle button
+      2  -> do Gtk.windowBeginResizeDrag window Gdk.WindowEdgeSouthEast 2 (round x) (round y) time
                return True
       _  -> return False
 
