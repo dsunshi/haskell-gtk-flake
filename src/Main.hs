@@ -15,8 +15,8 @@ canvasWidth = 256
 canvasHeight :: Int
 canvasHeight = 256
 
-drawClockBackground :: Gtk.IsWidget widget => widget -> Bool -> Render ()
-drawClockBackground canvas quality = do
+drawClockBackground :: Gtk.IsWidget widget => widget -> Render ()
+drawClockBackground canvas = do
 
   width  <- liftIO $ Gtk.widgetGetAllocatedWidth  canvas
   height <- liftIO $ Gtk.widgetGetAllocatedHeight canvas
@@ -32,7 +32,7 @@ drawClockBackground canvas quality = do
 
 drawCanvasHandler :: Gtk.IsWidget widget => widget -> Render Bool
 drawCanvasHandler widget = do
-  drawClockBackground widget True
+  drawClockBackground widget
   return True
 
 main :: IO ()
@@ -73,7 +73,7 @@ main = do
       1  -> do Gtk.windowBeginMoveDrag window 1 (round x) (round y) time  -- left button
                return True
       2  -> do Gtk.windowBeginResizeDrag window Gdk.WindowEdgeSouthEast 2 -- middle button
-                                                (round x) (round y) time
+                                         (round x) (round y) time
                return True
       _  -> return False
 
