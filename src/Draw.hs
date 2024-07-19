@@ -9,15 +9,11 @@ canvasWidth = 256
 canvasHeight :: Int
 canvasHeight = 256
 
-drawCanvas :: Gtk.IsWidget widget => widget -> Render ()
-drawCanvas canvas = do
-
-  width  <- liftIO $ Gtk.widgetGetAllocatedWidth  canvas
-  height <- liftIO $ Gtk.widgetGetAllocatedHeight canvas
-
+drawCanvas :: Gtk.IsWidget widget => widget -> Double -> Double -> Render ()
+drawCanvas canvas width height = do
   save
 
-  scale (fromIntegral width) (fromIntegral height)
+  scale width height
 
   setSourceRGB 0.78 0.82 0.805
   translate 0.5 0.5

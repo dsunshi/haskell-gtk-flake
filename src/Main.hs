@@ -12,7 +12,11 @@ import Draw
 
 drawCanvasHandler :: Gtk.IsWidget widget => widget -> Render Bool
 drawCanvasHandler widget = do
-  drawCanvas widget
+
+  width  <- liftIO $ Gtk.widgetGetAllocatedWidth  widget
+  height <- liftIO $ Gtk.widgetGetAllocatedHeight widget
+
+  drawCanvas widget (fromIntegral width) (fromIntegral height)
   return True
 
 main :: IO ()
