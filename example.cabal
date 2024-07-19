@@ -12,6 +12,7 @@ common warnings
 executable example
     import:           warnings
     main-is:          Main.hs
+    other-modules:    Draw
     build-depends:    base >= 4 && < 5,
                       text,
                       gi-cairo,
