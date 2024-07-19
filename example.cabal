@@ -12,6 +12,13 @@ common warnings
 executable example
     import:           warnings
     main-is:          Main.hs
-    build-depends:    base, gi-gtk, haskell-gi-base
+    build-depends:    base >= 4 && < 5,
+                      text,
+                      gi-cairo,
+                      gi-gdk,
+                      gi-glib,
+                      gi-gtk,
+                      gi-cairo-render,
+                      gi-cairo-connector
     hs-source-dirs:   src
     default-language: Haskell2010
