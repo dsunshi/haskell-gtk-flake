@@ -3,6 +3,7 @@ module Draw (drawCanvas, canvasWidth, canvasHeight) where
 
 import qualified GI.Gtk as Gtk
 import GI.Cairo.Render hiding (x, y, width, height)
+import Draw.Shape
 
 canvasWidth :: Int
 canvasWidth = 256
@@ -15,7 +16,7 @@ drawCanvas _canvas width height = do
   save
 
   setSourceRGB 0.18 0.20 0.25
-  rectangle 0 0 width height
+  rect 0 0 width height
   fill
 
   restore
