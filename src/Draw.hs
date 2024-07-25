@@ -23,3 +23,8 @@ drawCanvas _canvas width height = do
   rect 10 10 (width - 20) (height - 20)
 
   restore
+
+  color $ Hex 0x4c566a
+  setLineWidth 1
+  curveTo 50 50 50 150 225 225
+  stroke
