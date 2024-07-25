@@ -29,7 +29,7 @@ quadratic :: Double -> -- x1
              Double -> -- y3
              Double -> -- t
              (Double, Double)
-quadratic x1 y1 x2 y2  x3 y3 t = lerp p0x p0y p1x p1y t
+quadratic x1 y1 x2 y2 x3 y3 t = lerp p0x p0y p1x p1y t
     where
         (p0x, p0y) = lerp x1 y1 x2 y2 t
         (p1x, p1y) = lerp x2 y2 x3 y3 t
@@ -44,11 +44,35 @@ cubic :: Double -> -- x1
          Double -> -- y4
          Double -> -- t
          (Double, Double)
-cubic x1 y1 x2 y2  x3 y3  x4 y4 t = lerp p0x p0y p1x p1y t
+cubic x1 y1 x2 y2  x3 y3 x4 y4 t = lerp p0x p0y p1x p1y t
     where
         (p0x, p0y) = quadratic x1 y1 x2 y2 x3 y3 t
         (p1x, p1y) = quadratic x2 y2 x3 y3 x4 y4 t
 
+resolution :: Double -> [Double]
+resolution r = map (* r) [1 .. (1 / r)] :: [Double]
+
+bezier' :: Double -> -- x1
+           Double -> -- y1
+           Double -> -- x2
+           Double -> -- y2
+           Double -> -- x3
+           Double -> -- y3
+           Double -> -- x4
+           Double -> -- y4
+           [(Double, Double)]
+bezier' x1 y1 x2 y2  x3 y3 x4 y4 = map (cubic x1 y1 x2 y2 x3 y3 x4 y4) (resolution 0.1)
+
+bezier :: Double -> -- x1
+          Double -> -- y1
+          Double -> -- x2
+          Double -> -- y2
+          Double -> -- x3
+          Double -> -- y3
+          Double -> -- x4
+          Double -> -- y4
+          Render ()
+bezier x1 y1 x2 y2  x3 y3 x4 y4 = undefined
 
 drawCanvas :: Gtk.IsWidget widget => widget -> Double -> Double -> Render ()
 drawCanvas _canvas width height = do
