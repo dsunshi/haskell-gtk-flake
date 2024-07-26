@@ -48,20 +48,6 @@ cubic x1 y1 x2 y2  x3 y3 x4 y4 t = lerp p0x p0y p1x p1y t
         (p0x, p0y) = quadratic x1 y1 x2 y2 x3 y3 t
         (p1x, p1y) = quadratic x2 y2 x3 y3 x4 y4 t
 
-resolution :: Double -> [Double]
-resolution r = map (* r) [1 .. (1 / r)] :: [Double]
-
-bezier' :: Double -> -- x1
-           Double -> -- y1
-           Double -> -- x2
-           Double -> -- y2
-           Double -> -- x3
-           Double -> -- y3
-           Double -> -- x4
-           Double -> -- y4
-           [(Double, Double)]
-bezier' x1 y1 x2 y2  x3 y3 x4 y4 = map (cubic x1 y1 x2 y2 x3 y3 x4 y4) (resolution 0.1)
-
 bezier :: Double -> -- x1
           Double -> -- y1
           Double -> -- x2
@@ -73,10 +59,12 @@ bezier :: Double -> -- x1
           Render ()
 bezier x1 y1 x2 y2  x3 y3 x4 y4 = do
     moveTo x1 y1
-    mapM_ (\(ax, ay) -> lineTo ax ay) points 
+    mapM_ (uncurry lineTo) points
     stroke
     where
-        points = bezier' x1 y1 x2 y2  x3 y3 x4 y4
+        points = map (cubic x1 y1 x2 y2  x3 y3 x4 y4) ts
+        ts     = map (* res) [ 1 .. (1 / res)] :: [Double]
+        res    = 0.05
 
 drawCanvas :: Gtk.IsWidget widget => widget -> Double -> Double -> Render ()
 drawCanvas _canvas width height = do
