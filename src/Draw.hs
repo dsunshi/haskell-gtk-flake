@@ -12,7 +12,6 @@ canvasWidth = 256
 canvasHeight :: Int
 canvasHeight = 256
 
-
 lerp :: Double -> -- x1
         Double -> -- y1
         Double -> -- x2
@@ -72,7 +71,12 @@ bezier :: Double -> -- x1
           Double -> -- x4
           Double -> -- y4
           Render ()
-bezier x1 y1 x2 y2  x3 y3 x4 y4 = undefined
+bezier x1 y1 x2 y2  x3 y3 x4 y4 = do
+    moveTo x1 y1
+    mapM_ (\(ax, ay) -> lineTo ax ay) points 
+    stroke
+    where
+        points = bezier' x1 y1 x2 y2  x3 y3 x4 y4
 
 drawCanvas :: Gtk.IsWidget widget => widget -> Double -> Double -> Render ()
 drawCanvas _canvas width height = do
@@ -90,3 +94,4 @@ drawCanvas _canvas width height = do
   setLineWidth 1
   curveTo 50 50 50 150 225 225
   stroke
+  bezier 0 0 12 76 97 48 100 100
