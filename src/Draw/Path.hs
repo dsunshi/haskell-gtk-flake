@@ -1,16 +1,7 @@
-{-# OPTIONS_GHC -Wno-simplifiable-class-constraints #-}
-module Draw (drawCanvas, canvasWidth, canvasHeight) where
 
-import qualified GI.Gtk as Gtk
+module Draw.Path (bezier) where
+
 import GI.Cairo.Render hiding (x, y, width, height)
-import Draw.Shape
-import Draw.Color
-
-canvasWidth :: Int
-canvasWidth = 256
-
-canvasHeight :: Int
-canvasHeight = 256
 
 lerp :: Double -> -- x1
         Double -> -- y1
@@ -65,21 +56,3 @@ bezier x1 y1 x2 y2  x3 y3 x4 y4 = do
         points = map (cubic x1 y1 x2 y2  x3 y3 x4 y4) ts
         ts     = map (* res) [ 1 .. (1 / res)] :: [Double]
         res    = 0.05
-
-drawCanvas :: Gtk.IsWidget widget => widget -> Double -> Double -> Render ()
-drawCanvas _canvas width height = do
-  save
-
-  color $ Hex 0x4c566a
-  rect 0 0 width height
-
-  color $ Hex 0x2e3440
-  rect 10 10 (width - 20) (height - 20)
-
-  restore
-
-  color $ Hex 0x4c566a
-  setLineWidth 1
-  curveTo 50 50 50 150 225 225
-  stroke
-  bezier 0 0 12 76 97 48 100 100
