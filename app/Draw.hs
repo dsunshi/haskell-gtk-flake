@@ -27,4 +27,7 @@ drawCanvas _canvas width height = do
   setLineWidth 1
   bezier 0 0 12 76 97 48 100 100
 
+  circle 200 200 10
+  point 220 220
+
   restore
