@@ -1,9 +1,9 @@
 
-Running the example
+# Running the example
 
 ```sh
-cabal run -f example-perlin
+cabal run -f all example-perlin
 ```
 
-Expected result
+# Expected result
 ![example-perlin](../../assets/examples/perlin.png "example-perlin")
