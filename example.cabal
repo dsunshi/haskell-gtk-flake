@@ -9,8 +9,12 @@ build-type:      Simple
 common warnings
     ghc-options: -Wall
 
+flag all
+    default: False
+
 executable example
     import:           warnings
+    buildable:        True
     main-is:          Main.hs
     other-modules:    Draw, Draw.Shape, Draw.Color, Draw.Path, Draw.Noise
     build-depends:    base >= 4 && < 5,
@@ -27,6 +31,10 @@ executable example
 
 executable example-perlin
     import:           warnings
+    if flag(all)
+        buildable:    True
+    else
+        buildable:    False
     main-is:          Main.hs
     other-modules:    Draw, Draw.Shape, Draw.Color, Draw.Path, Draw.Noise
     build-depends:    base >= 4 && < 5,

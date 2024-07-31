@@ -14,16 +14,6 @@ canvasWidth = 400
 canvasHeight :: Int
 canvasHeight = 400
 
-perlin :: Double -> Double -> Render ()
-perlin x y = do
-    color $ Gray ((1.0 + noise x y 0) / 2.0) -- [-1 .. 1] -> [0 .. 1]
-    point x y
-
-canvasPoints :: [(Double, Double)]
-canvasPoints = [(x, y)
-  | x <- [1.0 .. fromIntegral canvasWidth]
-  , y <- [1.0 .. fromIntegral canvasHeight] ]
-
 drawCanvas :: Gtk.IsWidget widget => widget -> Double -> Double -> Render ()
 drawCanvas _canvas width height = do
   save
@@ -39,7 +29,5 @@ drawCanvas _canvas width height = do
 
   circle 200 200 10
   point 220 220
-
-  mapM_ (uncurry perlin) canvasPoints
 
   restore
