@@ -2,8 +2,6 @@
   <br>
   <img src="assets/branding/hickory_logo.png" alt="hickory">
   <br>
-  hickory
-  <br>
 </h1>
 
 <h4 align="center">
@@ -22,7 +20,6 @@ Creative coding with Haskell
 # Examples
 
 # ❤️&nbsp; More info
-
 
 [builtwithnix-badge]: https://img.shields.io/badge/builtwith-nix-7d81f7?logo=nixos&logoColor=white&style=flat-square
 [builtwithnix]: https://builtwithnix.org/
