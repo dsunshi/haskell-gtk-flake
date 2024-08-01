@@ -1,4 +1,3 @@
-{-# OPTIONS_GHC -Wno-simplifiable-class-constraints #-}
 module Draw (drawCanvas, canvasWidth, canvasHeight) where
 
 import qualified GI.Gtk as Gtk

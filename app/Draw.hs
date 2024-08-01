@@ -1,4 +1,3 @@
-{-# OPTIONS_GHC -Wno-simplifiable-class-constraints #-}
 module Draw (drawCanvas, canvasWidth, canvasHeight) where
 
 import qualified GI.Gtk as Gtk
@@ -6,7 +5,6 @@ import GI.Cairo.Render hiding (x, y, width, height)
 import Draw.Shape
 import Draw.Color
 import Draw.Path
-import Draw.Noise
 
 canvasWidth :: Int
 canvasWidth = 400
