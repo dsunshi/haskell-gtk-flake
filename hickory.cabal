@@ -21,6 +21,7 @@ executable hickory
     build-depends:    base >= 4 && < 5,
                       text,
                       hsnoise,
+                      random,
                       gi-cairo,
                       gi-gdk,
                       gi-glib,

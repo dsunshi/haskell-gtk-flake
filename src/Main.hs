@@ -67,7 +67,7 @@ main = do
   Gtk.containerAdd       window canvas
   Gtk.setWindowDecorated window False
   Gtk.setWindowResizable window True
-  Gtk.setWindowTitle     window (pack "Example Canvas")
+  Gtk.setWindowTitle     window (pack "Hickory")
 
   _ <- Gtk.onWidgetDraw canvas $ renderWithContext (drawCanvasHandler canvas)
 

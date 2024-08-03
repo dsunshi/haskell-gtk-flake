@@ -4,28 +4,37 @@ import qualified GI.Gtk as Gtk
 import GI.Cairo.Render hiding (x, y, width, height)
 import Draw.Shape
 import Draw.Color
-import Draw.Path
+import System.Random
+import Control.Monad
 
 canvasWidth :: Int
-canvasWidth = 400
+canvasWidth = 600
 
 canvasHeight :: Int
-canvasHeight = 400
+canvasHeight = 600
+
+-- randomCircle :: (RandomGen g) => g -> Render ()
+randomCircle :: Render ()
+randomCircle = do
+    g <- getStdGen
+    let (x, r1) = randomR (0.0, fromIntegral canvasWidth)  g
+    let (y, r2) = randomR (0.0, fromIntegral canvasHeight) r1
+    let (r, r3) = randomR (0.0, 100.0) r2
+    let (red, r4)   = randomR (0.0, 1.0) r3
+    let (green, r5) = randomR (0.0, 1.0) r4
+    let (blue, r6)  = randomR (0.0, 1.0) r5
+    setStdGen r6
+
+    color $ RGB red green blue
+    circle x y r
 
 drawCanvas :: Gtk.IsWidget widget => widget -> Double -> Double -> Render ()
 drawCanvas _canvas width height = do
-  save
+    save
 
-  color $ Hex 0x4c566a
-  rect 0 0 width height
+    color $ Hex 0xFFFFFF
+    rect 0 0 width height
 
-  color $ Hex 0x2e3440
-  rect 10 10 (width - 20) (height - 20)
-  color $ Hex 0x4c566a
-  setLineWidth 1
-  bezier 0 0 12 76 97 48 100 100
+    replicateM_ 100 randomCircle
 
-  circle 200 200 10
-  point 220 220
-
-  restore
+    restore
